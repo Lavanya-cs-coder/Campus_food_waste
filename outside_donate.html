@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Get Food - Campus Food Waste</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="menu">
+    <a href="/">🏠 Home</a>
+    <a href="/about">ℹ️ About</a>
+    <a href="/tips">💡 Tips</a>
+    <div class="dropdown">
+        <button class="dropbtn">🍽️ Donate</button>
+        <div class="dropdown-content">
+            <a href="/donate">Campus Donate</a>
+            <a href="/get_food">Get Food</a>
+        </div>
+    </div>
+    <a href="/check_food">📊 Check Food Status</a>
+    <a href="/ai_prediction">🤖 AI Prediction</a>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h1>🍴 Get Food</h1>
+        <form method="POST" action="/get_food">
+            <label>Supplier:</label>
+            <select name="supplier_name" required>
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.name }}">{{ supplier.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Food Item:</label>
+            <input type="text" name="food" required placeholder="Enter food item">
+
+            <label>Food Type:</label>
+            <div>
+                <input type="radio" name="food_type" value="Veg" required> Veg
+                <input type="radio" name="food_type" value="Non-Veg" style="margin-left:20px;"> Non-Veg
+            </div>
+
+            <label>Quantity:</label>
+            <input type="range" name="quantity" min="1" max="100" value="1" oninput="this.nextElementSibling.value=this.value">
+            <output>1</output> units
+
+            <label>Price (₹):</label>
+            <input type="number" name="price" min="0" required placeholder="Enter price">
+
+            <button type="submit">Get Food</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

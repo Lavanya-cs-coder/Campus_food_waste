@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Status - Campus Food Waste</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Menu Bar */
+        .menu {
+            background-color: #2c3e50;
+            padding: 10px 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            color: #f39c12;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .status-box {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .low {
+            background-color: #e74c3c;
+        }
+
+        .sufficient {
+            background-color: #27ae60;
+        }
+
+        .suppliers {
+            margin-top: 20px;
+        }
+
+        .supplier-card {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .supplier-card span {
+            font-weight: bold;
+        }
+
+        .veg-nonveg {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .veg, .nonveg {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .veg { background-color: #27ae60; }
+        .nonveg { background-color: #c0392b; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Menu -->
+    <div class="menu">
+        <a href="/">🏠 Home</a>
+        <a href="/about">ℹ️ About</a>
+        <a href="/tips">💡 Tips</a>
+        <a href="/donate">🍽️ Donate</a>
+        <a href="/get_food">Get Food</a>
+        <a href="/check_food">📊 Check Food Status</a>
+        <a href="/ai_prediction">🤖 AI Prediction</a>
+    </div>
+
+    <div class="container">
+        <h1>Food Status</h1>
+
+        <!-- Total Food Status -->
+        <div class="status-box {% if total_quantity < threshold %}low{% else %}sufficient{% endif %}">
+            {% if total_quantity < threshold %}
+                ⚠️ Food is LOW! Only {{ total_quantity }} units available.
+            {% else %}
+                ✅ Food supply is sufficient. Total: {{ total_quantity }} units
+            {% endif %}
+        </div>
+
+        <!-- Veg/Non-Veg Summary -->
+        <div class="veg-nonveg">
+            <div class="veg">Veg: {{ veg_total if veg_total else 0 }}</div>
+            <div class="nonveg">Non-Veg: {{ nonveg_total if nonveg_total else 0 }}</div>
+        </div>
+
+        <!-- Outside Suppliers -->
+        {% if suppliers %}
+        <div class="suppliers">
+            <h2>Outside Suppliers</h2>
+            {% for supplier in suppliers %}
+            <div class="supplier-card">
+                <span>{{ supplier.name }}</span>
+                <span>📞 {{ supplier.contact }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>

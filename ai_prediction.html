@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Food Prediction - Campus Food Waste</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu {
+            background-color: #2c3e50;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            color: #e67e22;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .prediction {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 6px;
+            color: white;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .high-risk {
+            background-color: #e74c3c;
+        }
+
+        .stable {
+            background-color: #27ae60;
+        }
+
+        .action {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .action a {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .action a:hover {
+            background-color: #e67e22;
+        }
+
+        .info p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/tips">Tips</a>
+        <a href="/donate">Donate</a>
+        <a href="/check_food">Check Food Status</a>
+        <a href="/get_food">Get Food</a>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1>🤖 AI Food Prediction</h1>
+
+            <div class="info">
+                <p><strong>Total Food Quantity:</strong> {{ total }}</p>
+                <p><strong>Threshold Quantity:</strong> {{ threshold }}</p>
+            </div>
+
+            <div class="prediction {% if total < threshold %}high-risk{% else %}stable{% endif %}">
+                {{ prediction }}
+            </div>
+
+            <div class="action">
+                <p><strong>Suggested Action:</strong> {{ action }}</p>
+                {% if total < threshold %}
+                <a href="/get_food">Get Food from Outside</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
